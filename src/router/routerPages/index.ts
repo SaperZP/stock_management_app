@@ -1,5 +1,5 @@
 import ErrorPage from './ErrorPage';
-import PublicLayout from "./PublicLayout.tsx";
 import PrivateLayout from "./PrivateLayout";
+import PublicLayout from "./PublicLayout/PublicLayout.tsx";
 
 export {ErrorPage, PublicLayout, PrivateLayout};

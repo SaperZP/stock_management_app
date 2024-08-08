@@ -1,8 +1,10 @@
+import {Box} from "@mui/material";
+
 const RegisterPage = () => {
   return (
-      <div>
+      <Box sx={{width:'100%'}}>
         RegisterPage
-      </div>
+      </Box>
   );
 };
 

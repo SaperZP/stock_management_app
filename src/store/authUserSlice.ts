@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, SerializedError} from "@reduxjs/toolkit";
-import {IUserLoginData, IUserRegisterData} from "../types";
+import {IUserLoginData, IUserRegisterData} from "../types/serverTypes.ts";
 import {loginUser, logoutUser, registerUser} from "../api/api.ts";
+import {toast} from "react-toastify";
 
 export interface IAuthUser {
   token: string,
@@ -56,11 +57,15 @@ const authUserSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(registerUserAction.fulfilled, (state, action) => {
+      const user = {...action.payload, is_superuser: false};
+
+      toast.success('Login successful!');
+      saveUserStateToSession(user);
       state.loading = false;
-      state.user = {...action.payload, is_superuser: false};
-      saveUserStateToSession(state.user);
+      state.user = user;
     });
     builder.addCase(registerUserAction.rejected, (state, action) => {
+      toast.error(action.error.message);
       state.error = action.error;
       state.loading = false;
     });
@@ -70,13 +75,15 @@ const authUserSlice = createSlice({
     });
     builder.addCase(loginUserAction.fulfilled, (state, action) => {
       const {key, user: {username, first_name, last_name, email, is_superuser}} = action.payload;
+      const user = {token: key, username, first_name, last_name, email, is_superuser};
 
+      toast.success('Login successful!');
+      saveUserStateToSession(user);
       state.loading = false;
       state.user = {token: key, username, first_name, last_name, email, is_superuser};
-
-      saveUserStateToSession(state.user);
     });
     builder.addCase(loginUserAction.rejected, (state, action) => {
+      toast.error(action.error.message);
       state.error = action.error;
       state.loading = false;
     });
@@ -85,11 +92,14 @@ const authUserSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(logoutUserAction.fulfilled, (state) => {
+      toast.success('Logout successful!');
+
       state.loading = false;
       state.user = null;
       sessionStorage.clear();
     });
     builder.addCase(logoutUserAction.rejected, (state, action) => {
+      toast.error(action.error.message);
       state.error = action.error;
       state.loading = false;
     });

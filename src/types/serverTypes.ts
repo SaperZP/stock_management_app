@@ -1,7 +1,7 @@
 export interface IUserRegisterData {
   username: string,
-  first_name: string,
-  last_name: string,
+  first_name?: string,
+  last_name?: string,
   email: string,
   password: string,
   password2: string,
@@ -16,7 +16,7 @@ export interface IUserRegisterResponse {
 }
 
 export interface IUserLoginData {
-  username: string,
+  username?: string,
   email: string,
   password: string,
 }

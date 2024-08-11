@@ -1,28 +1,28 @@
-import {useAppDispatch} from "../store/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
 import {loginUserAction} from "../store/authUserSlice.ts";
 import FormBody from "../components/Form/FormBody.tsx";
 import * as Yup from "yup";
 import {Field, Form, Formik} from "formik";
-import CustomFormikInput from "../components/Form/CustomFormikInput.tsx";
+import CustomMuiToFormikInput from "../components/Form/CustomMuiToFormikInput.tsx";
 import SubmitButton from "../components/Form/SubmitButton.tsx";
-import {Link} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
+import Link from '@mui/material/Link';
 import {formBodyStyles} from "../components/Form/formStyles.ts";
+import {CircularProgress} from "@mui/material";
+
 
 const initialValues = {email: "", password: ""};
 
 const LoginPage = () => {
+  const {loading} = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email format").required("Required"),
     password: Yup.string().required("Required").min(1),
-  })
+  });
 
-  const handleSubmit = () => {
-    dispatch(loginUserAction({
-      username: "appUser",
-      email: "sma@example.com",
-      password: "stringTest!33"
-    }))
+  const handleSubmit = ({email, password}: { email: string, password: string }) => {
+    dispatch(loginUserAction({email, password}))
   }
 
   return (
@@ -36,18 +36,22 @@ const LoginPage = () => {
             <Field
                 name="email"
                 label="Email"
-                component={CustomFormikInput}
+                component={CustomMuiToFormikInput}
             />
 
             <Field
                 name="password"
                 label="Password"
-                component={CustomFormikInput}
+                component={CustomMuiToFormikInput}
             />
 
-            <SubmitButton text={"Login"}/>
+            {loading ? <CircularProgress/> : <SubmitButton text={"Login"}/>}
 
-            <Link to={"/register"} className="text-yellow-500">
+            <Link
+                sx={formBodyStyles.link}
+                component={RouterLink}
+                to={"/register"}
+            >
               Don't have an account?
             </Link>
           </Form>

@@ -1,4 +1,5 @@
 import {getSxStyles} from "../../utils/getSxStyles.ts";
+import {yellow} from "@mui/material/colors";
 
 export const formBodyStyles = getSxStyles({
   container: {
@@ -20,9 +21,11 @@ export const formBodyStyles = getSxStyles({
     alignItems: 'center',
     justifyContent: 'center',
     gap: '20px',
-  }
-});
+  },
 
-export const submitButtonStyles = getSxStyles({
-  button: {}
+  link: {
+    textDecoration: 'none',
+    color: yellow[800],
+    fontWeight: "bold",
+  }
 });

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {IUserLoginData, IUserLoginResponse, IUserRegisterData, IUserRegisterResponse} from "../types";
+import {IUserLoginData, IUserLoginResponse, IUserRegisterData, IUserRegisterResponse} from "../types/serverTypes.ts";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 

@@ -7,7 +7,7 @@ interface CustomFormikInputProps extends FieldProps {
   type: string;
 }
 
-const CustomFormikInput: React.FC<CustomFormikInputProps> = (
+const CustomMuiToFormikInput: React.FC<CustomFormikInputProps> = (
     {
       field,
       form,
@@ -33,4 +33,4 @@ const CustomFormikInput: React.FC<CustomFormikInputProps> = (
   )
 };
 
-export default CustomFormikInput;
+export default CustomMuiToFormikInput;

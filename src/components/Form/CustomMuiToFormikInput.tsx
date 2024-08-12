@@ -1,6 +1,8 @@
 import {FieldProps} from "formik";
-import React from "react";
-import {TextField} from "@mui/material";
+import React, {useState} from "react";
+import {InputAdornment, TextField} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 interface CustomFormikInputProps extends FieldProps {
   label: string;
@@ -16,21 +18,46 @@ const CustomMuiToFormikInput: React.FC<CustomFormikInputProps> = (
       ...props
     }
 ) => {
-  const errorText = form.errors[field.name];
-  const isTouched = form.touched[field.name];
+  const [showPassword, setShowPassword] = useState(false);
+  const isPasswordType = type === "password";
+  const errorText = form.touched[field.name] && form.errors[field.name];
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const handleMouseDownPassword = (
+      event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   return (
       <TextField
           {...field}
           {...props}
           label={label}
-          type={type}
+          type={isPasswordType && showPassword ? "text" : type}
           variant="outlined"
           fullWidth
-          error={Boolean(isTouched && errorText)}
-          helperText={(isTouched && errorText) && errorText.toString()}
+          error={Boolean(errorText)}
+          helperText={errorText ? errorText.toString() : ""}
+          InputProps={{
+            endAdornment: isPasswordType && (
+                <InputAdornment position="end">
+                  <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                  >
+                    {showPassword ? <Visibility/> : <VisibilityOff/>}
+                  </IconButton>
+                </InputAdornment>
+            ),
+          }}
       />
-  )
+  );
 };
 
 export default CustomMuiToFormikInput;

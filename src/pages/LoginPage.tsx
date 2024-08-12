@@ -40,6 +40,7 @@ const LoginPage = () => {
             />
 
             <Field
+                type="password"
                 name="password"
                 label="Password"
                 component={CustomMuiToFormikInput}

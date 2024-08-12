@@ -3,68 +3,60 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
 import * as React from "react";
+import {
+  AdminPanelSettings,
+  Dashboard,
+  Inventory,
+  Receipt,
+  ShoppingCart,
+  AccountBalance,
+  Stars,
+  Category
+} from '@mui/icons-material/';
+import {useNavigate} from "react-router-dom";
+import {customSidebarStyles} from "./CustomSidebarStyles.ts";
+
+const pages = [
+  {name: 'Admin Panel', path: '/admin', icon: AdminPanelSettings},
+  {name: 'Dashboard', path: '/dashboard', icon: Dashboard},
+  {name: 'Products', path: '/products', icon: Inventory},
+  {name: 'Sales', path: '/sales', icon: Receipt},
+  {name: 'Purchases', path: '/purchases', icon: ShoppingCart},
+  {name: 'Firms', path: '/firms', icon: AccountBalance},
+  {name: 'Brands', path: '/brands', icon: Stars},
+  {name: 'Categories', path: '/categories', icon: Category},
+];
 
 type CustomSideBarProps = {
-      isDrawerOpen: boolean;
+  isDrawerOpen: boolean;
 };
 
-const CustomSideBar: React.FC<CustomSideBarProps> = ({isDrawerOpen}) => (
-    <StyledDrawer variant="permanent" open={isDrawerOpen}>
-      <StyledDrawerHeader/>
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{display: 'block'}}>
-              <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: isDrawerOpen ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
-              >
-                <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: isDrawerOpen ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}
+const CustomSideBar: React.FC<CustomSideBarProps> = ({isDrawerOpen}) => {
+  const navigation = useNavigate();
+  return (
+      <StyledDrawer variant="permanent" open={isDrawerOpen}>
+        <StyledDrawerHeader/>
+        <List>
+          {pages.map((page, index) => (
+              <ListItem key={page.name + index} disablePadding sx={customSidebarStyles.listItem}>
+                <ListItemButton
+                    onClick={() => navigation(page.path)}
+                    sx={customSidebarStyles.listItemButton}
                 >
-                  {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{opacity: isDrawerOpen ? 1 : 0}}/>
-              </ListItemButton>
-            </ListItem>
-        ))}
-      </List>
-      <Divider/>
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{display: 'block'}}>
-              <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: isDrawerOpen ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
-              >
-                <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: isDrawerOpen ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                >
-                  {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{opacity: isDrawerOpen ? 1 : 0}}/>
-              </ListItemButton>
-            </ListItem>
-        ))}
-      </List>
-    </StyledDrawer>
-);
+                  <ListItemIcon
+                      sx={[customSidebarStyles.listItemIcon, isDrawerOpen && customSidebarStyles.listItemIcon_open]}>
+                    <page.icon sx={customSidebarStyles.icon}/>
+                  </ListItemIcon>
+                  <ListItemText
+                      primary={page.name}
+                      sx={[customSidebarStyles.listItemText, isDrawerOpen && customSidebarStyles.listItemText_open]}/>
+                </ListItemButton>
+              </ListItem>
+          ))}
+        </List>
+      </StyledDrawer>
+  )
+};
 export default CustomSideBar;

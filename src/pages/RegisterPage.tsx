@@ -5,12 +5,11 @@ import * as Yup from "yup";
 import {Field, Form, Formik} from "formik";
 import CustomMuiToFormikInput from "../components/Form/CustomMuiToFormikInput.tsx";
 import SubmitButton from "../components/Form/SubmitButton.tsx";
-import {Link as RouterLink, useNavigate} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
 import Link from '@mui/material/Link';
 import {formBodyStyles} from "../components/Form/formStyles.ts";
 import {CircularProgress} from "@mui/material";
 import {IUserRegisterData} from "../types/serverTypes.ts";
-import {useEffect} from "react";
 
 
 const initialValues: IUserRegisterData = {
@@ -23,8 +22,7 @@ const initialValues: IUserRegisterData = {
 };
 
 const RegisterPage = () => {
-  const navigate = useNavigate();
-  const {loading, error, user} = useAppSelector((state) => state.auth);
+  const {loading} = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const validationSchema = Yup.object({
     username: Yup.string().required("Required").min(1).max(150).matches(/^[\w.@+-]+$/, 'Letters, digits and @/./+/-/_ only'),
@@ -39,14 +37,8 @@ const RegisterPage = () => {
     dispatch(registerUserAction({...formData}));
   }
 
-  useEffect(() => {
-    if (user?.token && !error && !loading) {
-      navigate('/');
-    }
-  }, [user, loading, error, navigate]);
-
   return (
-      <FormBody title={"Login"}>
+      <FormBody title={"Register"}>
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

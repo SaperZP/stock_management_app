@@ -6,14 +6,15 @@ import Typography from "@mui/material/Typography";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
 import {StyledAppBar} from "../../styledComponents.ts";
 import * as React from "react";
-import {useAppSelector} from "../../../../../store/hooks.ts";
-import {Navigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../../../store/hooks.ts";
+import {Navigate, useNavigate} from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import PasswordIcon from '@mui/icons-material/Password';
 import ListItemText from "@mui/material/ListItemText";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CustomAppBarStyles from "./CustomAppBarStyles.ts";
 import Divider from "@mui/material/Divider";
+import {logoutUserAction} from "../../../../../store/authUserSlice.ts";
 
 type CustomAppBarProps = {
   isDrawerOpen: boolean;
@@ -21,18 +22,31 @@ type CustomAppBarProps = {
 };
 
 const CustomAppBar: React.FC<CustomAppBarProps> = ({isDrawerOpen, drawerOpenHandler}) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {user} = useAppSelector((state) => state.auth);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  if (!user) {
+    return <Navigate to={'/'}/>
+  }
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  if (!user) {
-    return <Navigate to={'/login'}/>
-  }
+  const handleLogout = () => {
+    dispatch(logoutUserAction(user.token));
+  };
+
+  const handleGoToProfile = () => {
+    setAnchorElUser(null);
+    navigate("/profile");
+  };
 
 
   return (
@@ -72,7 +86,7 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({isDrawerOpen, drawerOpenHand
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
             >
-              <MenuItem sx={CustomAppBarStyles.menuItem} onClick={handleCloseUserMenu}>
+              <MenuItem sx={CustomAppBarStyles.menuItem}>
                 <Avatar variant={"square"} alt={user.username} src="/"/>
                 <Box>
                   <Typography textAlign="center">{user.email}</Typography>
@@ -82,7 +96,7 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({isDrawerOpen, drawerOpenHand
 
               <Divider />
 
-              <MenuItem sx={CustomAppBarStyles.menuItem} onClick={handleCloseUserMenu}>
+              <MenuItem sx={CustomAppBarStyles.menuItem} onClick={handleGoToProfile}>
                 <ListItemIcon>
                   <PasswordIcon sx={CustomAppBarStyles.menuItemIcon} />
                 </ListItemIcon>
@@ -91,7 +105,7 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({isDrawerOpen, drawerOpenHand
 
               <Divider />
 
-              <MenuItem sx={CustomAppBarStyles.menuItem} onClick={handleCloseUserMenu}>
+              <MenuItem sx={CustomAppBarStyles.menuItem} onClick={handleLogout}>
                 <ListItemIcon>
                   <ExitToAppIcon sx={CustomAppBarStyles.menuItemIcon} />
                 </ListItemIcon>

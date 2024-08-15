@@ -13,7 +13,7 @@ const PrivateLayout = () => {
   };
 
   return (
-      <Box sx={{display: 'flex'}}>
+      <Box sx={{display: 'flex', bgcolor: 'project_color_gray.main', minHeight: '100vh'}}>
         <CustomAppBar isDrawerOpen={isDrawerOpen} drawerOpenHandler={handleDrawerToggle}/>
         <CustomSideBar isDrawerOpen={isDrawerOpen}/>
         <Box component="main" sx={{flexGrow: 1, p: 3}}>

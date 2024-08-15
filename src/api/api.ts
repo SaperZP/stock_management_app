@@ -1,5 +1,11 @@
 import axios from "axios";
-import {IUserLoginData, IUserLoginResponse, IUserRegisterData, IUserRegisterResponse} from "../types/serverTypes.ts";
+import {
+  IUserLoginData,
+  IUserLoginResponse,
+  IUserPassChangeData, IUserPassChangeResponse,
+  IUserRegisterData,
+  IUserRegisterResponse
+} from "../types/serverTypes.ts";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -48,6 +54,23 @@ export const logoutUser = async (token: string) => {
     return Promise.reject(new Error(res.statusText + res.status));
   } catch (error) {
     console.error("An error occurred while logout the user:", error);
+    return Promise.reject(error);
+  }
+}
+
+export const changePassword = async (token: string, input: IUserPassChangeData): Promise<IUserPassChangeResponse> => {
+  const headers = {Authorization: `Token ${token}`};
+
+  try {
+    const res = await axios.post(`${baseUrl}/account/auth/password/change/`, input, {headers});
+
+    if (res.status === 200) {
+      return Promise.resolve(res.data);
+    }
+
+    return Promise.reject(new Error(res.statusText + res.status));
+  } catch (error) {
+    console.error("An error occurred while changing password:", error);
     return Promise.reject(error);
   }
 }

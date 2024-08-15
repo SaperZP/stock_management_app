@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, SerializedError} from "@reduxjs/toolkit";
-import {IUserLoginData, IUserRegisterData} from "../types/serverTypes.ts";
-import {loginUser, logoutUser, registerUser} from "../api/api.ts";
+import {IUserLoginData, IUserPassChangeData, IUserRegisterData} from "../types/serverTypes.ts";
+import {changePassword, loginUser, logoutUser, registerUser} from "../api/api.ts";
 import {toast} from "react-toastify";
 
 export interface IAuthUser {
@@ -103,6 +103,19 @@ const authUserSlice = createSlice({
       state.error = action.error;
       state.loading = false;
     });
+
+    builder.addCase(changePasswordAction.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(changePasswordAction.fulfilled, (state, {payload}) => {
+      toast.success(payload.detail);
+      state.loading = false;
+    });
+    builder.addCase(changePasswordAction.rejected, (state, action) => {
+      toast.error(action.error.message);
+      state.error = action.error;
+      state.loading = false;
+    });
   },
 });
 
@@ -121,5 +134,10 @@ const logoutUserAction = createAsyncThunk(
     (token: string) => logoutUser(token),
 );
 
+const changePasswordAction = createAsyncThunk(
+    "auth/changePassword",
+    (data: { token: string, input: IUserPassChangeData }) => changePassword(data.token, data.input),
+);
+
 export default authUserSlice.reducer;
-export {registerUserAction, loginUserAction, logoutUserAction};
+export {registerUserAction, loginUserAction, logoutUserAction, changePasswordAction};

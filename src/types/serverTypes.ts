@@ -32,3 +32,12 @@ export interface IUserLoginResponse {
     is_superuser: boolean,
   }
 }
+
+export interface IUserPassChangeData {
+  new_password1: string,
+  new_password2: string,
+}
+
+export interface IUserPassChangeResponse {
+  detail: string,
+}

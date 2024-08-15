@@ -27,9 +27,8 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({isDrawerOpen, drawerOpenHand
   const {user} = useAppSelector((state) => state.auth);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  if (!user) {
-    return <Navigate to={'/'}/>
-  }
+  if (!user) return <Navigate to={'/'}/>
+
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);

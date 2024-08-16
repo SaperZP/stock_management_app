@@ -9,7 +9,7 @@ import CustomMuiToFormikInput from "../../components/Form/CustomMuiToFormikInput
 import SubmitButton from "../../components/Form/SubmitButton.tsx";
 import FormBody from "../../components/Form/FormBody.tsx";
 import * as Yup from "yup";
-import {IUserPassChangeData} from "../../types/serverTypes.ts";
+import {IUserPassChangeData} from "../../types/authServerTypes.ts";
 import Typography from "@mui/material/Typography";
 import {changePasswordAction} from "../../store/authUserSlice.ts";
 

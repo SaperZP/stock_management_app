@@ -15,12 +15,12 @@ import {
   Stars,
   Category
 } from '@mui/icons-material/';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {customSidebarStyles} from "./CustomSidebarStyles.ts";
 
 const pages = [
   {name: 'Admin Panel', path: '/admin', icon: AdminPanelSettings},
-  {name: 'Dashboard', path: '/dashboard', icon: Dashboard},
+  {name: 'Dashboard', path: '/', icon: Dashboard},
   {name: 'Products', path: '/products', icon: Inventory},
   {name: 'Sales', path: '/sales', icon: Receipt},
   {name: 'Purchases', path: '/purchases', icon: ShoppingCart},
@@ -34,7 +34,9 @@ type CustomSideBarProps = {
 };
 
 const CustomSideBar: React.FC<CustomSideBarProps> = ({isDrawerOpen}) => {
+  const location = useLocation();
   const navigation = useNavigate();
+
   return (
       <StyledDrawer variant="permanent" open={isDrawerOpen}>
         <StyledDrawerHeader/>
@@ -43,7 +45,10 @@ const CustomSideBar: React.FC<CustomSideBarProps> = ({isDrawerOpen}) => {
               <ListItem key={page.name + index} disablePadding sx={customSidebarStyles.listItem}>
                 <ListItemButton
                     onClick={() => navigation(page.path)}
-                    sx={customSidebarStyles.listItemButton}
+                    sx={[
+                      customSidebarStyles.listItemButton,
+                      page.path === location.pathname && customSidebarStyles.listItemButtonActive
+                    ]}
                 >
                   <ListItemIcon
                       sx={[customSidebarStyles.listItemIcon, isDrawerOpen && customSidebarStyles.listItemIcon_open]}>

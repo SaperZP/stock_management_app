@@ -9,6 +9,13 @@ export const customSidebarStyles = getSxStyles({
   listItemButton: {
     minHeight: 48,
     px: 2.5,
+
+    "&:hover": {
+      backgroundColor: (theme: Theme) => theme.palette.grey["600"]!,
+    }
+  },
+  listItemButtonActive: {
+    backgroundColor: (theme: Theme) => theme.palette.grey["600"]!,
   },
   listItemIcon: {
     minWidth: 0,

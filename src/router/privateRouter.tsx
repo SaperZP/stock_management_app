@@ -19,20 +19,12 @@ const PrivateRouter = createBrowserRouter([
     errorElement: <ErrorPage/>,
     children: [
       {
-        path: '/register',
-        element: <Navigate to={'/'} replace/>,
-      },
-      {
-        path: '/profile',
-        element: <ProfilePage/>
+        index: true,
+        element: <DashboardPage/>
       },
       {
         path: '/admin',
         element: <AdminPanelPage/>
-      },
-      {
-        path: '/dashboard',
-        element: <DashboardPage/>
       },
       {
         path: '/products',
@@ -57,7 +49,15 @@ const PrivateRouter = createBrowserRouter([
       {
         path: '/categories',
         element: <CategoriesPage/>
-      }
+      },
+      {
+        path: '/profile',
+        element: <ProfilePage/>
+      },
+      {
+        path: '/register',
+        element: <Navigate to={'/'} replace/>,
+      },
     ],
   },
 ]);

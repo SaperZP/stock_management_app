@@ -9,7 +9,7 @@ import {Link as RouterLink} from "react-router-dom";
 import Link from '@mui/material/Link';
 import {formBodyStyles} from "../components/Form/formStyles.ts";
 import {CircularProgress} from "@mui/material";
-import {IUserRegisterData} from "../types/serverTypes.ts";
+import {IUserRegisterData} from "../types/authServerTypes.ts";
 
 
 const initialValues: IUserRegisterData = {

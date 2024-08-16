@@ -2,10 +2,12 @@ import axios from "axios";
 import {
   IUserLoginData,
   IUserLoginResponse,
-  IUserPassChangeData, IUserPassChangeResponse,
+  IUserPassChangeData,
+  IUserPassChangeResponse,
   IUserRegisterData,
   IUserRegisterResponse
-} from "../types/serverTypes.ts";
+} from "../types/authServerTypes.ts";
+import {ICategory} from "../types/categoriesServerTypes.ts";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -71,6 +73,23 @@ export const changePassword = async (token: string, input: IUserPassChangeData):
     return Promise.reject(new Error(res.statusText + res.status));
   } catch (error) {
     console.error("An error occurred while changing password:", error);
+    return Promise.reject(error);
+  }
+}
+
+export const getCategories = async (token: string): Promise<ICategory[]> => {
+  const headers = {Authorization: `Token ${token}`};
+
+  try {
+    const res = await axios.get(`${baseUrl}/stock/categories/`, {headers});
+
+    if (res.status === 200) {
+      return Promise.resolve(res.data);
+    }
+
+    return Promise.reject(new Error(res.statusText + res.status));
+  } catch (error) {
+    console.error("An error occurred while fetching categories:", error);
     return Promise.reject(error);
   }
 }

@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, SerializedError} from "@reduxjs/toolkit";
-import {IUserLoginData, IUserPassChangeData, IUserRegisterData} from "../types/serverTypes.ts";
+import {IUserLoginData, IUserPassChangeData, IUserRegisterData} from "../types/authServerTypes.ts";
 import {changePassword, loginUser, logoutUser, registerUser} from "../api/api.ts";
 import {toast} from "react-toastify";
 

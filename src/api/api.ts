@@ -7,7 +7,7 @@ import {
   IUserRegisterData,
   IUserRegisterResponse
 } from "../types/authServerTypes.ts";
-import {ICategory} from "../types/categoriesServerTypes.ts";
+import {IAddCategoryRequest, ICategory} from "../types/categoriesServerTypes.ts";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -75,7 +75,7 @@ export const changePassword = async (token: string, input: IUserPassChangeData):
     console.error("An error occurred while changing password:", error);
     return Promise.reject(error);
   }
-}
+};
 
 export const getCategories = async (token: string): Promise<ICategory[]> => {
   const headers = {Authorization: `Token ${token}`};
@@ -92,4 +92,55 @@ export const getCategories = async (token: string): Promise<ICategory[]> => {
     console.error("An error occurred while fetching categories:", error);
     return Promise.reject(error);
   }
-}
+};
+
+export const addCategory = async (token: string, input: IAddCategoryRequest): Promise<ICategory> => {
+  const headers = {Authorization: `Token ${token}`};
+
+  try {
+    const res = await axios.post(`${baseUrl}/stock/categories/`, input, {headers});
+
+    if (res.status === 201) {
+      return Promise.resolve(res.data);
+    }
+
+    return Promise.reject(new Error(res.statusText + res.status));
+  } catch (error) {
+    console.error("An error occurred while adding new category:", error);
+    return Promise.reject(error);
+  }
+};
+
+export const editCategory = async (token: string, input: IAddCategoryRequest, id: number): Promise<ICategory> => {
+  const headers = {Authorization: `Token ${token}`};
+
+  try {
+    const res = await axios.put(`${baseUrl}/stock/categories/${id}/`, input, {headers});
+
+    if (res.status === 200) {
+      return Promise.resolve(res.data);
+    }
+
+    return Promise.reject(new Error(res.statusText + res.status));
+  } catch (error) {
+    console.error("An error occurred while editing category:", error);
+    return Promise.reject(error);
+  }
+};
+
+export const deleteCategory = async (token: string, id: number) => {
+  const headers = {Authorization: `Token ${token}`};
+
+  try {
+    const res = await axios.delete(`${baseUrl}/stock/categories/${id}/`, {headers});
+
+    if (res.status === 204) {
+      return Promise.resolve(id);
+    }
+
+    return Promise.reject(new Error(res.statusText + res.status));
+  } catch (error) {
+    console.error("An error occurred while deleting category:", error);
+    return Promise.reject(error);
+  }
+};

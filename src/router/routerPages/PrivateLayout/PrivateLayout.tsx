@@ -4,6 +4,7 @@ import {StyledDrawerHeader} from "./styledComponents.ts";
 import CustomAppBar from "./components/CustomAppBar/CustomAppBar.tsx";
 import CustomSideBar from "./components/CustomSideBar/CustomSideBar.tsx";
 import {Box} from "@mui/material";
+import CustomModal from "../../../components/CustomModal/CustomModal.tsx";
 
 const PrivateLayout = () => {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -19,6 +20,7 @@ const PrivateLayout = () => {
         <Box component="main" sx={{flexGrow: 1, p: 3}}>
           <StyledDrawerHeader/>
           <Outlet/>
+          <CustomModal />
         </Box>
       </Box>
   );

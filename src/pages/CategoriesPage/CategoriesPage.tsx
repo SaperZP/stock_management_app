@@ -1,7 +1,12 @@
-import {FC, useEffect} from 'react';
+import {useEffect} from 'react';
 import styles from './categoriesPageStyled.ts';
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {getCategoriesAction} from "../../store/categoriesSlice.ts";
+import {
+  addCategoryAction,
+  deleteCategoryAction,
+  editCategoryAction,
+  getCategoriesAction
+} from "../../store/categoriesSlice.ts";
 import {Create, DeleteOutline} from "@mui/icons-material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,19 +18,75 @@ import Paper from '@mui/material/Paper';
 import IconButton from "@mui/material/IconButton";
 import {Box, Button, CircularProgress} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import {clearFormData, InputFieldData, openModal} from "../../store/modalSlice.ts";
+import {IAddCategoryRequest} from "../../types/categoriesServerTypes.ts";
+import {modalValidationSchemasType} from "../../components/CustomModal/modalValidationSchemas.ts";
 
-interface CategoriesPageProps {
-}
-
-const CategoriesPage: FC<CategoriesPageProps> = () => {
+const CategoriesPage = () => {
   const dispatch = useAppDispatch();
   const {categories, loading} = useAppSelector(state => state.categories);
+  const {formShape, submittedModalData} = useAppSelector(state => state.modal);
   const {user} = useAppSelector(state => state.auth);
+
+  const createEditModal = (initialValues: IAddCategoryRequest, id: number) => {
+    const validationSchema: modalValidationSchemasType = 'editCategory';
+
+    const inputFields: InputFieldData[] = [{
+      name: 'name',
+      label: 'Category Name',
+      type: 'text',
+    }];
+
+    const buttonsText = {submit: 'Update category', cancel: 'Cancel'}
+
+    dispatch(openModal({initialValues, validationSchema, inputFields, buttonsText, id}))
+  };
+
+  const createNewCategoryModal = () => {
+    const initialValues = {name: ''};
+    const validationSchema: modalValidationSchemasType = 'newCategory';
+    const inputFields: InputFieldData[] = [{
+      name: 'name',
+      label: 'Category Name',
+      type: 'text',
+    }];
+
+    const buttonsText = {submit: 'Add new category', cancel: 'Cancel'}
+
+    dispatch(openModal({initialValues, validationSchema, inputFields, buttonsText}))
+  }
 
   useEffect(() => {
     dispatch(getCategoriesAction(user!.token))
   }, [dispatch, user]);
 
+  useEffect(() => {
+    if (submittedModalData && formShape) {
+      switch (formShape.validationSchema) {
+        case 'editCategory' : {
+          dispatch(editCategoryAction({
+            token: user!.token,
+            input: submittedModalData,
+            id: formShape.id as number
+          })).then(() => dispatch(clearFormData()))
+          break;
+        }
+
+        case 'newCategory' : {
+          dispatch(addCategoryAction({
+            token: user!.token,
+            input: submittedModalData,
+          })).then(() => dispatch(clearFormData()))
+          break;
+        }
+
+        default : {
+          console.error('category action is not recognized!');
+        }
+      }
+
+    }
+  }, [submittedModalData, dispatch, user, formShape])
 
   return (
       <Box sx={styles.container}>
@@ -35,7 +96,7 @@ const CategoriesPage: FC<CategoriesPageProps> = () => {
                 <Typography variant={'h4'}>
                   Categories
                 </Typography>
-                <Button variant={"contained"}>
+                <Button onClick={() => createNewCategoryModal()} variant={"contained"}>
                   New Category
                 </Button>
               </Box>
@@ -58,11 +119,11 @@ const CategoriesPage: FC<CategoriesPageProps> = () => {
                           <TableCell align="right">{name}</TableCell>
                           <TableCell align="right">{product_count}</TableCell>
                           <TableCell align="right">
-                            <IconButton>
+                            <IconButton onClick={() => createEditModal({name}, id)}>
                               <Create color="info"/>
                             </IconButton>
 
-                            <IconButton>
+                            <IconButton onClick={() => dispatch(deleteCategoryAction({token: user!.token, id}))}>
                               <DeleteOutline color="error"/>
                             </IconButton>
                           </TableCell>

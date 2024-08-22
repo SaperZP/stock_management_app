@@ -3,3 +3,7 @@ export interface ICategory {
   name: string;
   product_count: number;
 }
+
+export interface IAddCategoryRequest {
+  name: string;
+}

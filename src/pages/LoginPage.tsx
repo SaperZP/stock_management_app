@@ -9,6 +9,7 @@ import {Link as RouterLink} from "react-router-dom";
 import Link from '@mui/material/Link';
 import {formBodyStyles} from "../components/Form/formStyles.ts";
 import {CircularProgress} from "@mui/material";
+import {IUserLoginData} from "../types/authServerTypes.ts";
 
 
 const initialValues = {email: "", password: ""};
@@ -16,12 +17,12 @@ const initialValues = {email: "", password: ""};
 const LoginPage = () => {
   const {loading} = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const validationSchema = Yup.object({
+  const validationSchema = Yup.object<IUserLoginData>({
     email: Yup.string().email("Invalid email format").required("Required"),
     password: Yup.string().required("Required").min(1),
   });
 
-  const handleSubmit = ({email, password}: { email: string, password: string }) => {
+  const handleSubmit = ({email, password}: IUserLoginData) => {
     dispatch(loginUserAction({email, password}))
   }
 

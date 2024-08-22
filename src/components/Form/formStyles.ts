@@ -3,14 +3,19 @@ import {yellow} from "@mui/material/colors";
 
 export const formBodyStyles = getSxStyles({
   container: {
-    width: "100%",
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     gap: '10px',
-    padding: '50px',
-    backgroundColor: 'rgb(255,255,255)',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    backgroundColor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
     borderRadius: '10px',
   },
 

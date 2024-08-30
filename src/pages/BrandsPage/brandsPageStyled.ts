@@ -1,7 +1,12 @@
 import {getSxStyles} from "../../utils/getSxStyles.ts";
 
 const brandsPageStyles = getSxStyles({
-  box: {},
+  brands: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '10px',
+    justifyContent: 'center',
+  },
 });
 
 export default brandsPageStyles;

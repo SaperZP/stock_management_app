@@ -16,11 +16,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from "@mui/material/IconButton";
-import {Box, Button, CircularProgress} from "@mui/material";
-import Typography from "@mui/material/Typography";
+import {Box, CircularProgress} from "@mui/material";
 import {clearFormData, InputFieldData, openModal} from "../../store/modalSlice.ts";
 import {IAddCategoryRequest} from "../../types/categoriesServerTypes.ts";
 import {modalValidationSchemasType} from "../../components/CustomModal/modalValidationSchemas.ts";
+import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 
 const CategoriesPage = () => {
   const dispatch = useAppDispatch();
@@ -92,14 +92,12 @@ const CategoriesPage = () => {
       <Box sx={styles.container}>
         {categories !== null && !loading ?
             <>
-              <Box sx={styles.header}>
-                <Typography variant={'h4'}>
-                  Categories
-                </Typography>
-                <Button onClick={() => createNewCategoryModal()} variant={"contained"}>
-                  New Category
-                </Button>
-              </Box>
+              <PageHeader
+                  title="Categories"
+                  buttonText="New Category"
+                  onClick={createNewCategoryModal}
+              />
+
               <TableContainer component={Paper}>
                 <Table sx={styles.table} aria-label="simple table">
                   <TableHead>

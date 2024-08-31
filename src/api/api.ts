@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig} from "axios";
 import {
   IUserLoginData,
   IUserLoginResponse,
@@ -8,6 +8,7 @@ import {
   IUserRegisterResponse
 } from "../types/authServerTypes.ts";
 import {IAddCategoryRequest, ICategory} from "../types/categoriesServerTypes.ts";
+import {IBrandReq, IBrandResp} from "../types/brandTypes.ts";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -27,7 +28,6 @@ export const registerUser = async (input: IUserRegisterData): Promise<IUserRegis
     return Promise.reject(error);
   }
 };
-
 export const loginUser = async (input: IUserLoginData): Promise<IUserLoginResponse> => {
   try {
     const res = await axios.post(`${baseUrl}/account/auth/login/`, input);
@@ -43,7 +43,6 @@ export const loginUser = async (input: IUserLoginData): Promise<IUserLoginRespon
     return Promise.reject(error);
   }
 }
-
 export const logoutUser = async (token: string) => {
   const headers = {Authorization: `Token ${token}`};
   try {
@@ -59,7 +58,6 @@ export const logoutUser = async (token: string) => {
     return Promise.reject(error);
   }
 }
-
 export const changePassword = async (token: string, input: IUserPassChangeData): Promise<IUserPassChangeResponse> => {
   const headers = {Authorization: `Token ${token}`};
 
@@ -77,70 +75,83 @@ export const changePassword = async (token: string, input: IUserPassChangeData):
   }
 };
 
-export const getCategories = async (token: string): Promise<ICategory[]> => {
-  const headers = {Authorization: `Token ${token}`};
+const getData = async <T>(url: string, token: string): Promise<T> => {
+  const headers = { Authorization: `Token ${token}` };
 
   try {
-    const res = await axios.get(`${baseUrl}/stock/categories/`, {headers});
-
-    if (res.status === 200) {
-      return Promise.resolve(res.data);
-    }
-
-    return Promise.reject(new Error(res.statusText + res.status));
+    const res = await axios.get<T>(url, {headers});
+    return res.data;
   } catch (error) {
-    console.error("An error occurred while fetching categories:", error);
+    console.error("An error occurred while fetching data:", error);
     return Promise.reject(error);
   }
 };
 
-export const addCategory = async (token: string, input: IAddCategoryRequest): Promise<ICategory> => {
-  const headers = {Authorization: `Token ${token}`};
+const addData = async <T, U>(url: string, data: U, token: string): Promise<T> => {
+  const headers = { Authorization: `Token ${token}` };
 
   try {
-    const res = await axios.post(`${baseUrl}/stock/categories/`, input, {headers});
-
-    if (res.status === 201) {
-      return Promise.resolve(res.data);
-    }
-
-    return Promise.reject(new Error(res.statusText + res.status));
+    const res = await axios.post<T>(url, data, {headers});
+    return res.data;
   } catch (error) {
-    console.error("An error occurred while adding new category:", error);
+    console.error("An error occurred while posting data:", error);
     return Promise.reject(error);
   }
 };
 
-export const editCategory = async (token: string, input: IAddCategoryRequest, id: number): Promise<ICategory> => {
-  const headers = {Authorization: `Token ${token}`};
+const editData = async <T, U>(url: string, data: U, token: string): Promise<T> => {
+  const headers = { Authorization: `Token ${token}` };
 
   try {
-    const res = await axios.put(`${baseUrl}/stock/categories/${id}/`, input, {headers});
-
-    if (res.status === 200) {
-      return Promise.resolve(res.data);
-    }
-
-    return Promise.reject(new Error(res.statusText + res.status));
+    const res = await axios.put<T>(url, data, {headers});
+    return res.data;
   } catch (error) {
-    console.error("An error occurred while editing category:", error);
+    console.error("An error occurred while updating data:", error);
     return Promise.reject(error);
   }
 };
 
-export const deleteCategory = async (token: string, id: number) => {
-  const headers = {Authorization: `Token ${token}`};
+const deleteData = async (url: string, token: string): Promise<void> => {
+  const headers = { Authorization: `Token ${token}` };
 
   try {
-    const res = await axios.delete(`${baseUrl}/stock/categories/${id}/`, {headers});
-
-    if (res.status === 204) {
-      return Promise.resolve(id);
-    }
-
-    return Promise.reject(new Error(res.statusText + res.status));
+    await axios.delete(url, {headers});
+    return Promise.resolve();
   } catch (error) {
-    console.error("An error occurred while deleting category:", error);
+    console.error("An error occurred while deleting data:", error);
     return Promise.reject(error);
   }
+};
+
+
+export const getCategories = (token: string): Promise<ICategory[]> => {
+  return getData<ICategory[]>(`${baseUrl}/stock/categories/`, token);
+};
+
+export const addCategory = (token: string, input: IAddCategoryRequest): Promise<ICategory> => {
+  return addData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/`, input, token);
+};
+
+export const editCategory = (token: string, input: IAddCategoryRequest, id: number): Promise<ICategory> => {
+  return editData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/${id}/`, input, token);
+};
+
+export const deleteCategory = (token: string, id: number): Promise<number> => {
+  return deleteData(`${baseUrl}/stock/categories/${id}/`, token).then(() => id);
+};
+
+export const getBrands = (token: string): Promise<IBrandResp[]> => {
+  return getData<IBrandResp[]>(`${baseUrl}/stock/brands/`, token);
+};
+
+export const addBrand = (token: string, input: IBrandReq): Promise<IBrandResp> => {
+  return addData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/`, input, token);
+};
+
+export const editBrand = (token: string, input: IBrandReq, id: number): Promise<IBrandResp> => {
+  return editData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/${id}/`, input, token);
+};
+
+export const deleteBrand = (token: string, id: number): Promise<number> => {
+  return deleteData(`${baseUrl}/stock/brands/${id}/`, token).then(() => id);
 };

@@ -9,9 +9,11 @@ type CardProps = {
   id: number;
   name: string;
   image: string;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-const CustomCard: React.FC<CardProps> = ({name, image}) => {
+const CustomCard: React.FC<CardProps> = ({name, image, onEdit, onDelete}) => {
   return (
       <Card sx={styles.card}>
         <Box>
@@ -24,11 +26,11 @@ const CustomCard: React.FC<CardProps> = ({name, image}) => {
           </Typography>
 
           <Box className={"child"} sx={styles.buttonsGroup}>
-            <IconButton size='small'>
+            <IconButton onClick={onEdit} size='small'>
               <Edit fontSize="small" />
             </IconButton>
 
-            <IconButton size={"small"}>
+            <IconButton onClick={onDelete} size={"small"}>
               <Delete fontSize="small" />
             </IconButton>
           </Box>

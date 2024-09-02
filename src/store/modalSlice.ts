@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IAddCategoryRequest} from "../types/categoriesServerTypes.ts";
 import {modalValidationSchemasType} from "../components/CustomModal/modalValidationSchemas.ts";
+import {IBrandReq} from "../types/brandTypes.ts";
 
 export interface InputFieldData {
   name: string;
@@ -8,9 +9,11 @@ export interface InputFieldData {
   type: 'text' | 'email' | 'password' | 'number' | 'checkbox';
 }
 
+export type InitialValuesTypes = IAddCategoryRequest | IBrandReq;
+
 export type FormShapeType = {
   id?: number;
-  initialValues: IAddCategoryRequest;
+  initialValues: InitialValuesTypes;
   validationSchema: modalValidationSchemasType;
   inputFields: InputFieldData[];
   buttonsText: {
@@ -22,7 +25,7 @@ export type FormShapeType = {
 export type ModalState = {
   isOpen: boolean;
   formShape: FormShapeType | null;
-  submittedModalData: IAddCategoryRequest | null;
+  submittedModalData: InitialValuesTypes | null;
 }
 
 export const initialState: ModalState = {
@@ -42,7 +45,7 @@ const modalSlice = createSlice({
       state.submittedModalData = null;
     },
 
-    submitData: (state, action: PayloadAction<IAddCategoryRequest | null>) => {
+    submitData: (state, action: PayloadAction<InitialValuesTypes | null>) => {
       state.submittedModalData = action.payload;
     },
 

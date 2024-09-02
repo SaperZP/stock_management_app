@@ -17,8 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from "@mui/material/IconButton";
 import {Box, CircularProgress} from "@mui/material";
-import {clearFormData, InputFieldData, openModal} from "../../store/modalSlice.ts";
-import {IAddCategoryRequest} from "../../types/categoriesServerTypes.ts";
+import {clearFormData, InitialValuesTypes, InputFieldData, openModal} from "../../store/modalSlice.ts";
 import {modalValidationSchemasType} from "../../components/CustomModal/modalValidationSchemas.ts";
 import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 
@@ -28,7 +27,7 @@ const CategoriesPage = () => {
   const {formShape, submittedModalData} = useAppSelector(state => state.modal);
   const {user} = useAppSelector(state => state.auth);
 
-  const createEditModal = (initialValues: IAddCategoryRequest, id: number) => {
+  const createEditModal = (initialValues: InitialValuesTypes, id: number) => {
     const validationSchema: modalValidationSchemasType = 'editCategory';
 
     const inputFields: InputFieldData[] = [{
@@ -43,7 +42,7 @@ const CategoriesPage = () => {
   };
 
   const createNewCategoryModal = () => {
-    const initialValues = {name: ''};
+    const initialValues: InitialValuesTypes = {name: ''};
     const validationSchema: modalValidationSchemasType = 'newCategory';
     const inputFields: InputFieldData[] = [{
       name: 'name',
@@ -90,8 +89,8 @@ const CategoriesPage = () => {
 
   return (
       <Box sx={styles.container}>
-        {categories !== null && !loading ?
-            <>
+        {!loading
+            ? <>
               <PageHeader
                   title="Categories"
                   buttonText="New Category"
@@ -130,8 +129,9 @@ const CategoriesPage = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </> :
-            <CircularProgress color={"error"}/>}
+            </>
+            : <CircularProgress color={"error"}/>
+        }
       </Box>
   )
 };

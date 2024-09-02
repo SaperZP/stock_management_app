@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig} from "axios";
+import axios from "axios";
 import {
   IUserLoginData,
   IUserLoginResponse,
@@ -128,30 +128,30 @@ export const getCategories = (token: string): Promise<ICategory[]> => {
   return getData<ICategory[]>(`${baseUrl}/stock/categories/`, token);
 };
 
-export const addCategory = (token: string, input: IAddCategoryRequest): Promise<ICategory> => {
-  return addData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/`, input, token);
+export const addCategory = (data: { token: string, input: IAddCategoryRequest }): Promise<ICategory> => {
+  return addData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/`,data.input, data.token);
 };
 
-export const editCategory = (token: string, input: IAddCategoryRequest, id: number): Promise<ICategory> => {
-  return editData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/${id}/`, input, token);
+export const editCategory = (data: { token: string, input: IAddCategoryRequest, id: number }): Promise<ICategory> => {
+  return editData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/${data.id}/`, data.input, data.token);
 };
 
-export const deleteCategory = (token: string, id: number): Promise<number> => {
-  return deleteData(`${baseUrl}/stock/categories/${id}/`, token).then(() => id);
+export const deleteCategory = (data: { token: string, id: number }): Promise<number> => {
+  return deleteData(`${baseUrl}/stock/categories/${data.id}/`, data.token).then(() => data.id);
 };
 
 export const getBrands = (token: string): Promise<IBrandResp[]> => {
   return getData<IBrandResp[]>(`${baseUrl}/stock/brands/`, token);
 };
 
-export const addBrand = (token: string, input: IBrandReq): Promise<IBrandResp> => {
-  return addData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/`, input, token);
+export const addBrand = (data: {token: string, input: IBrandReq}): Promise<IBrandResp> => {
+  return addData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/`, data.input, data.token);
 };
 
-export const editBrand = (token: string, input: IBrandReq, id: number): Promise<IBrandResp> => {
-  return editData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/${id}/`, input, token);
+export const editBrand = (data: {token: string, input: IBrandReq, id: number}): Promise<IBrandResp> => {
+  return editData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/${data.id}/`, data.input, data.token);
 };
 
-export const deleteBrand = (token: string, id: number): Promise<number> => {
-  return deleteData(`${baseUrl}/stock/brands/${id}/`, token).then(() => id);
+export const deleteBrand = (data: {token: string, id: number}): Promise<number> => {
+  return deleteData(`${baseUrl}/stock/brands/${data.id}/`, data.token).then(() => data.id);
 };

@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, SerializedError} from "@reduxjs/toolkit";
-import {IAddCategoryRequest, ICategory} from "../types/categoriesServerTypes.ts";
+import {ICategory} from "../types/categoriesServerTypes.ts";
 import {addCategory, deleteCategory, editCategory, getCategories} from "../api/api.ts";
 import {toast} from "react-toastify";
 
@@ -75,26 +75,10 @@ const categoriesSlice = createSlice({
   },
 });
 
-const getCategoriesAction = createAsyncThunk(
-    "categories/getCategories",
-    (token: string) => getCategories(token),
-);
-
-const addCategoryAction = createAsyncThunk(
-    "categories/addCategories",
-    (data: { token: string, input: IAddCategoryRequest }) =>
-        addCategory(data.token, data.input),
-);
-
-const editCategoryAction = createAsyncThunk(
-    "categories/editCategory",
-    (data: { token: string, input: IAddCategoryRequest, id: number }) => editCategory(data.token, data.input, data.id),
-);
-
-const deleteCategoryAction = createAsyncThunk(
-    "categories/deleteCategory",
-    (data: { token: string, id: number }) => deleteCategory(data.token, data.id),
-);
+const getCategoriesAction = createAsyncThunk("categories/getCategories", getCategories);
+const addCategoryAction = createAsyncThunk("categories/addCategories", addCategory);
+const editCategoryAction = createAsyncThunk("categories/editCategory", editCategory);
+const deleteCategoryAction = createAsyncThunk("categories/deleteCategory", deleteCategory);
 
 export default categoriesSlice.reducer;
 export {getCategoriesAction, addCategoryAction, editCategoryAction, deleteCategoryAction};

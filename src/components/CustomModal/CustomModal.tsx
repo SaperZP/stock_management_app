@@ -1,13 +1,12 @@
 import {Box, Button, Modal} from "@mui/material";
 import {default as styles} from "./CustomModalStyles.ts";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {closeModal, submitData} from "../../store/modalSlice.ts";
+import {closeModal, InitialValuesTypes, submitData} from "../../store/modalSlice.ts";
 import {Field, Form, Formik, FormikConfig} from "formik";
 import {formBodyStyles} from "../Form/formStyles.ts";
 import CustomMuiToFormikInput from "../Form/CustomMuiToFormikInput.tsx";
 import SubmitButton from "../Form/SubmitButton.tsx";
 import FormBody from "../Form/FormBody.tsx";
-import {IAddCategoryRequest} from "../../types/categoriesServerTypes.ts";
 import {modalValidationSchemas as schema} from "./modalValidationSchemas.ts"
 
 const CustomModal = () => {
@@ -18,12 +17,12 @@ const CustomModal = () => {
     return null;
   }
 
-  const handleSubmit = (values: IAddCategoryRequest) => {
+  const handleSubmit = (values: InitialValuesTypes) => {
     dispatch(submitData(values));
     dispatch(closeModal());
   };
 
-  const formikConfig: FormikConfig<IAddCategoryRequest> = {
+  const formikConfig: FormikConfig<InitialValuesTypes> = {
     initialValues: formShape.initialValues,
     validationSchema: schema[formShape.validationSchema],
     onSubmit: handleSubmit,

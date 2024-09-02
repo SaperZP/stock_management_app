@@ -1,11 +1,19 @@
 import * as Yup from 'yup';
 
 export const modalValidationSchemas = {
+  newCategory: Yup.object().shape({
+    name: Yup.string().required("Required").min(1),
+  }),
   editCategory: Yup.object().shape({
     name: Yup.string().required("Required").min(1),
   }),
-  newCategory: Yup.object().shape({
+  newBrand: Yup.object().shape({
     name: Yup.string().required("Required").min(1),
+    image: Yup.string().required("Required").min(1),
+  }),
+  editBrand: Yup.object().shape({
+    name: Yup.string().required("Required").min(1),
+    image: Yup.string().required("Required").min(1),
   }),
 };
 

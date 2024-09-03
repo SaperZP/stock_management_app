@@ -7,8 +7,9 @@ import {
   IUserRegisterData,
   IUserRegisterResponse
 } from "../types/authServerTypes.ts";
-import {IAddCategoryRequest, ICategory} from "../types/categoriesServerTypes.ts";
+import {ICategoryReq, ICategoryResp} from "../types/categoriesServerTypes.ts";
 import {IBrandReq, IBrandResp} from "../types/brandTypes.ts";
+import {IFirmsReq, IFirmsResp} from "../types/firmsTypes.ts";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -76,7 +77,7 @@ export const changePassword = async (token: string, input: IUserPassChangeData):
 };
 
 const getData = async <T>(url: string, token: string): Promise<T> => {
-  const headers = { Authorization: `Token ${token}` };
+  const headers = {Authorization: `Token ${token}`};
 
   try {
     const res = await axios.get<T>(url, {headers});
@@ -88,7 +89,7 @@ const getData = async <T>(url: string, token: string): Promise<T> => {
 };
 
 const addData = async <T, U>(url: string, data: U, token: string): Promise<T> => {
-  const headers = { Authorization: `Token ${token}` };
+  const headers = {Authorization: `Token ${token}`};
 
   try {
     const res = await axios.post<T>(url, data, {headers});
@@ -100,7 +101,7 @@ const addData = async <T, U>(url: string, data: U, token: string): Promise<T> =>
 };
 
 const editData = async <T, U>(url: string, data: U, token: string): Promise<T> => {
-  const headers = { Authorization: `Token ${token}` };
+  const headers = {Authorization: `Token ${token}`};
 
   try {
     const res = await axios.put<T>(url, data, {headers});
@@ -112,7 +113,7 @@ const editData = async <T, U>(url: string, data: U, token: string): Promise<T> =
 };
 
 const deleteData = async (url: string, token: string): Promise<void> => {
-  const headers = { Authorization: `Token ${token}` };
+  const headers = {Authorization: `Token ${token}`};
 
   try {
     await axios.delete(url, {headers});
@@ -124,34 +125,35 @@ const deleteData = async (url: string, token: string): Promise<void> => {
 };
 
 
-export const getCategories = (token: string): Promise<ICategory[]> => {
-  return getData<ICategory[]>(`${baseUrl}/stock/categories/`, token);
-};
+export const getCategories = (token: string) => getData<ICategoryResp[]>(`${baseUrl}/stock/categories/`, token);
 
-export const addCategory = (data: { token: string, input: IAddCategoryRequest }): Promise<ICategory> => {
-  return addData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/`,data.input, data.token);
-};
+export const addCategory = (data: { token: string, input: ICategoryReq }): Promise<ICategoryResp> =>
+    addData<ICategoryResp, ICategoryReq>(`${baseUrl}/stock/categories/`, data.input, data.token);
 
-export const editCategory = (data: { token: string, input: IAddCategoryRequest, id: number }): Promise<ICategory> => {
-  return editData<ICategory, IAddCategoryRequest>(`${baseUrl}/stock/categories/${data.id}/`, data.input, data.token);
-};
+export const editCategory = (data: { token: string, input: ICategoryReq, id: number }): Promise<ICategoryResp> =>
+    editData<ICategoryResp, ICategoryReq>(`${baseUrl}/stock/categories/${data.id}/`, data.input, data.token);
 
-export const deleteCategory = (data: { token: string, id: number }): Promise<number> => {
-  return deleteData(`${baseUrl}/stock/categories/${data.id}/`, data.token).then(() => data.id);
-};
+export const deleteCategory = (data: { token: string, id: number }) =>
+    deleteData(`${baseUrl}/stock/categories/${data.id}/`, data.token).then(() => data.id);
 
-export const getBrands = (token: string): Promise<IBrandResp[]> => {
-  return getData<IBrandResp[]>(`${baseUrl}/stock/brands/`, token);
-};
+export const getBrands = (token: string) => getData<IBrandResp[]>(`${baseUrl}/stock/brands/`, token);
 
-export const addBrand = (data: {token: string, input: IBrandReq}): Promise<IBrandResp> => {
-  return addData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/`, data.input, data.token);
-};
+export const addBrand = (data: { token: string, input: IBrandReq }) =>
+    addData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/`, data.input, data.token);
 
-export const editBrand = (data: {token: string, input: IBrandReq, id: number}): Promise<IBrandResp> => {
-  return editData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/${data.id}/`, data.input, data.token);
-};
+export const editBrand = (data: { token: string, input: IBrandReq, id: number }) =>
+    editData<IBrandResp, IBrandReq>(`${baseUrl}/stock/brands/${data.id}/`, data.input, data.token);
 
-export const deleteBrand = (data: {token: string, id: number}): Promise<number> => {
-  return deleteData(`${baseUrl}/stock/brands/${data.id}/`, data.token).then(() => data.id);
-};
+export const deleteBrand = (data: { token: string, id: number }) =>
+    deleteData(`${baseUrl}/stock/brands/${data.id}/`, data.token).then(() => data.id);
+
+export const getFirms = (token: string) => getData<IFirmsResp[]>(`${baseUrl}/stock/firms/`, token);
+
+export const addFirm = (data: { token: string, input: IFirmsReq }) =>
+    addData<IFirmsResp, IFirmsReq>(`${baseUrl}/stock/firms/`, data.input, data.token);
+
+export const editFirm = (data: { token: string, input: IFirmsResp, id: number }) =>
+    editData<IFirmsResp, IFirmsReq>(`${baseUrl}/stock/firms/${data.id}/`, data.input, data.token);
+
+export const deleteFirm = (data: { token: string, id: number }) =>
+    deleteData(`${baseUrl}/stock/firms/${data.id}/`, data.token).then(() => data.id);

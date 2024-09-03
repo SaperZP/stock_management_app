@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IAddCategoryRequest} from "../types/categoriesServerTypes.ts";
+import {ICategoryReq} from "../types/categoriesServerTypes.ts";
 import {modalValidationSchemasType} from "../components/CustomModal/modalValidationSchemas.ts";
 import {IBrandReq} from "../types/brandTypes.ts";
 
@@ -9,7 +9,7 @@ export interface InputFieldData {
   type: 'text' | 'email' | 'password' | 'number' | 'checkbox';
 }
 
-export type InitialValuesTypes = IAddCategoryRequest | IBrandReq;
+export type InitialValuesTypes = ICategoryReq | IBrandReq;
 
 export type FormShapeType = {
   id?: number;

@@ -1,9 +1,9 @@
-export interface ICategory {
+export interface ICategoryResp {
   id: number;
   name: string;
   product_count: number;
 }
 
-export interface IAddCategoryRequest {
+export interface ICategoryReq {
   name: string;
 }

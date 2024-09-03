@@ -3,13 +3,13 @@ import {IBrandResp} from "../types/brandTypes.ts";
 import {addBrand, deleteBrand, editBrand, getBrands} from "../api/api.ts";
 import {toast} from "react-toastify";
 
-type brandType = {
+type stateType = {
   error: SerializedError | null,
   loading: boolean,
   brands: IBrandResp[],
 };
 
-const initialState: brandType = {
+const initialState: stateType = {
   error: null,
   loading: false,
   brands: [],
@@ -59,7 +59,7 @@ const brandsSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(deleteBrandAction.rejected, (state, action) => {
-      toast.done('category was successfully deleted');
+      toast.done('brand was successfully deleted');
       state.error = action.error;
       state.loading = false;
     });

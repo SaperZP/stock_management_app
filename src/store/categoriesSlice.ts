@@ -1,12 +1,12 @@
 import {createAsyncThunk, createSlice, SerializedError} from "@reduxjs/toolkit";
-import {ICategory} from "../types/categoriesServerTypes.ts";
+import {ICategoryResp} from "../types/categoriesServerTypes.ts";
 import {addCategory, deleteCategory, editCategory, getCategories} from "../api/api.ts";
 import {toast} from "react-toastify";
 
 type categoryType = {
   error: SerializedError | null,
   loading: boolean,
-  categories: ICategory[],
+  categories: ICategoryResp[],
 };
 
 const initialState: categoryType = {

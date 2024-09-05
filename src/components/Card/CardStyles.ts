@@ -1,4 +1,5 @@
 import {getSxStyles} from "../../utils/getSxStyles.ts";
+import {red} from "@mui/material/colors";
 
 const CardStyles = getSxStyles({
   card: {
@@ -8,6 +9,10 @@ const CardStyles = getSxStyles({
     '&:hover .child': {
       visibility: "visible",
     },
+    border: '3px solid transparent',
+  },
+  cardActive: {
+    borderColor: red[900],
   },
   buttonsGroup: {
     visibility: "hidden",

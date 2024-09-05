@@ -11,11 +11,15 @@ type CardProps = {
   image: string;
   onEdit: () => void;
   onDelete: () => void;
+  onCardClick?: (id: number) => void;
+  activeCardId?: number | null;
 }
 
-const CustomCard: React.FC<CardProps> = ({name, image, onEdit, onDelete}) => {
+const CustomCard: React.FC<CardProps> = ({id, name, image, onEdit, onDelete, onCardClick, activeCardId}) => {
   return (
-      <Card sx={styles.card}>
+      <Card
+          onClick={() => onCardClick && onCardClick(id)}
+          sx={[styles.card, id === activeCardId && styles.cardActive]}>
         <Box>
           <Typography
               textAlign={"center"}
@@ -27,11 +31,11 @@ const CustomCard: React.FC<CardProps> = ({name, image, onEdit, onDelete}) => {
 
           <Box className={"child"} sx={styles.buttonsGroup}>
             <IconButton onClick={onEdit} size='small'>
-              <Edit fontSize="small" />
+              <Edit fontSize="small"/>
             </IconButton>
 
             <IconButton onClick={onDelete} size={"small"}>
-              <Delete fontSize="small" />
+              <Delete fontSize="small"/>
             </IconButton>
           </Box>
         </Box>

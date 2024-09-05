@@ -1,4 +1,4 @@
-import styles from './brandsPageStyled.ts';
+import styles from './brandsPageStyles.ts';
 import {Box, CircularProgress} from "@mui/material";
 import CustomCard from "../../components/Card/CustomCard.tsx";
 import PageHeader from "../../components/PageHeader/PageHeader.tsx";

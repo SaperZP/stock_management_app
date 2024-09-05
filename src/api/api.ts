@@ -152,7 +152,7 @@ export const getFirms = (token: string) => getData<IFirmsResp[]>(`${baseUrl}/sto
 export const addFirm = (data: { token: string, input: IFirmsReq }) =>
     addData<IFirmsResp, IFirmsReq>(`${baseUrl}/stock/firms/`, data.input, data.token);
 
-export const editFirm = (data: { token: string, input: IFirmsResp, id: number }) =>
+export const editFirm = (data: { token: string, input: IFirmsReq, id: number }) =>
     editData<IFirmsResp, IFirmsReq>(`${baseUrl}/stock/firms/${data.id}/`, data.input, data.token);
 
 export const deleteFirm = (data: { token: string, id: number }) =>

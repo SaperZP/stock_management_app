@@ -23,13 +23,13 @@ export type FormShapeType = {
   }
 }
 
-export type ModalState = {
+export type ModalStateType = {
   isOpen: boolean;
   formShape: FormShapeType | null;
   submittedModalData: InitialValuesTypes | null;
 }
 
-export const initialState: ModalState = {
+export const initialState: ModalStateType = {
   isOpen: false,
   formShape: null,
   submittedModalData: null,

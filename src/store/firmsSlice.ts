@@ -3,13 +3,13 @@ import {IFirmsResp} from "../types/firmsTypes.ts";
 import {addFirm, deleteFirm, editFirm, getFirms} from "../api/api.ts";
 import {toast} from "react-toastify";
 
-type stateType = {
+type FilmsStateType = {
   error: SerializedError | null,
   loading: boolean,
   firms: IFirmsResp[]
 };
 
-const initialState: stateType = {
+const initialState: FilmsStateType = {
   error: null,
   loading: false,
   firms: [],

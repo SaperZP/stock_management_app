@@ -3,13 +3,13 @@ import {IBrandResp} from "../types/brandTypes.ts";
 import {addBrand, deleteBrand, editBrand, getBrands} from "../api/api.ts";
 import {toast} from "react-toastify";
 
-type stateType = {
+type BrandsStateType = {
   error: SerializedError | null,
   loading: boolean,
   brands: IBrandResp[],
 };
 
-const initialState: stateType = {
+const initialState: BrandsStateType = {
   error: null,
   loading: false,
   brands: [],

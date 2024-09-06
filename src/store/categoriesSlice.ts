@@ -3,13 +3,13 @@ import {ICategoryResp} from "../types/categoriesServerTypes.ts";
 import {addCategory, deleteCategory, editCategory, getCategories} from "../api/api.ts";
 import {toast} from "react-toastify";
 
-type categoryType = {
+type CategoriesStateType = {
   error: SerializedError | null,
   loading: boolean,
   categories: ICategoryResp[],
 };
 
-const initialState: categoryType = {
+const initialState: CategoriesStateType = {
   error: null,
   loading: false,
   categories: [],

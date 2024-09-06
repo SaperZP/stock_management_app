@@ -7,6 +7,7 @@ import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 import CustomCard from "../../components/Card/CustomCard.tsx";
 import {addFirmAction, deleteFirmAction, editFirmAction, getFirmsAction} from "../../store/firmsSlice.ts";
 import {IFirmsReq} from "../../types/firmsTypes.ts";
+import {default as styles} from "./firmsPageStyles.ts";
 
 const FirmsPage = () => {
   const dispatch = useAppDispatch();
@@ -99,12 +100,7 @@ const FirmsPage = () => {
                   onClick={createNewFirmModal}
               />
 
-              <Box sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '10px',
-                justifyContent: 'center',
-              }}>
+              <Box sx={styles.firmsContainer}>
                 {firms.map((firm) =>
                     <CustomCard
                         id={firm.id}

@@ -38,15 +38,18 @@ const CustomModal = () => {
         <FormBody title={""}>
           <Formik {...formikConfig}>
             <Form style={formBodyStyles.form}>
-              {formShape.inputFields.map(({name, label, type}) => (
-                      <Field
-                          key={name}
-                          name={name}
-                          label={label}
-                          type={type}
-                          component={CustomMuiToFormikInput}
-                      />
-                  )
+              {formShape.inputFields.map(({name, label, type, selectOptions}) => {
+                return (
+                    <Field
+                        key={name}
+                        name={name}
+                        label={label}
+                        type={type}
+                        selectOptions={selectOptions}
+                        component={CustomMuiToFormikInput}
+                    />
+                )
+                  }
               )}
 
               <Box sx={styles.boxGroup}>

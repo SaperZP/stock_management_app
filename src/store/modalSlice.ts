@@ -3,14 +3,21 @@ import {ICategoryReq} from "../types/categoriesServerTypes.ts";
 import {modalValidationSchemasType} from "../components/CustomModal/modalValidationSchemas.ts";
 import {IBrandReq} from "../types/brandTypes.ts";
 import {IFirmsReq} from "../types/firmsTypes.ts";
+import {IEditProductReq} from "../types/productsTypes.ts";
+
+export interface ISelectOptions {
+  id: number;
+  name: string;
+}
 
 export interface InputFieldData {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'checkbox';
+  type: 'text' | 'email' | 'password' | 'number' | 'select';
+  selectOptions?: ISelectOptions[];
 }
 
-export type InitialValuesTypes = ICategoryReq | IBrandReq | IFirmsReq;
+export type InitialValuesTypes = ICategoryReq | IBrandReq | IFirmsReq | IEditProductReq;
 
 export type FormShapeType = {
   id?: number;

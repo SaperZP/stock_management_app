@@ -107,7 +107,7 @@ const FirmsPage = () => {
                         name={firm.name}
                         image={firm.image}
                         key={firm.id}
-                        onEdit={() => createEditFirmModal({...firm}, firm.id)}
+                        onEdit={() => createEditFirmModal(firm, firm.id)}
                         onDelete={() => dispatch(deleteFirmAction({token: user!.token, id: firm.id}))}
                         activeCardId={activeCardId}
                         onCardClick={setActiveCardId}

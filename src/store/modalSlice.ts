@@ -20,14 +20,15 @@ export interface InputFieldData {
 export type InitialValuesTypes = ICategoryReq | IBrandReq | IFirmsReq | IEditProductReq;
 
 export type FormShapeType = {
-  id?: number;
   initialValues: InitialValuesTypes;
   validationSchema: modalValidationSchemasType;
   inputFields: InputFieldData[];
   buttonsText: {
     submit: string;
     cancel: string;
-  }
+  };
+  id?: number;
+  activeOptions?: Record<string, number>;
 }
 
 export type ModalStateType = {

@@ -1,4 +1,4 @@
-import {FC, useEffect} from 'react';
+import {useEffect} from 'react';
 import styles from './productsPageStyles.ts';
 import {Box, CircularProgress, Stack} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
@@ -18,10 +18,7 @@ import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 import IconButton from "@mui/material/IconButton";
 import {Edit, DeleteOutline} from "@mui/icons-material/";
 
-interface ProductsPageProps {
-}
-
-const ProductsPage: FC<ProductsPageProps> = () => {
+const ProductsPage = () => {
   const dispatch = useAppDispatch();
   const {brands, loading: brandsLoading} = useAppSelector(state => state.brands);
   const {categories, loading: categoriesLoading} = useAppSelector(state => state.categories);
@@ -60,11 +57,17 @@ const ProductsPage: FC<ProductsPageProps> = () => {
     dispatch(openModal({initialValues, validationSchema, inputFields, buttonsText}))
   };
 
-  const createEditProduct = (initialValues: InitialValuesTypes, id: number) => {
+  const createEditProductModal = (initialValues: InitialValuesTypes, id: number) => {
+    const product = products.find(product => product.id === id);
+    const activeOptions = {
+      brand_id: product!.brand_id,
+      category_id: product!.category_id,
+    };
+
     const validationSchema: modalValidationSchemasType = 'editProduct';
     const buttonsText = {submit: 'Update product', cancel: 'Cancel'}
 
-    dispatch(openModal({initialValues, validationSchema, inputFields, buttonsText, id}))
+    dispatch(openModal({initialValues, validationSchema, inputFields, buttonsText, id, activeOptions}))
   };
 
   const rows = products.map((product) => ({
@@ -85,11 +88,11 @@ const ProductsPage: FC<ProductsPageProps> = () => {
       field: "actions",
       headerName: "Actions",
       width: 150,
-      renderCell: ({row}: { row: IProductsResp }) => {
+      renderCell: ({row}: { row: Omit<IProductsResp, 'category_id' | 'brand_id'> }) => {
 
         return (
             <Stack direction="row" spacing={2} mt={1} alignItems="center">
-              <IconButton onClick={() => createEditProduct(row, row.id)}>
+              <IconButton onClick={() => createEditProductModal(row, row.id)}>
                 <Edit sx={{color: 'orange'}}/>
               </IconButton>
               <IconButton onClick={() => dispatch(deleteProductAction({token: user!.token, id: row.id}))}>

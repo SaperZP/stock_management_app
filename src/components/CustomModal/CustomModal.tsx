@@ -46,6 +46,7 @@ const CustomModal = () => {
                         label={label}
                         type={type}
                         selectOptions={selectOptions}
+                        activeOptions={formShape.activeOptions}
                         component={CustomMuiToFormikInput}
                     />
                 )

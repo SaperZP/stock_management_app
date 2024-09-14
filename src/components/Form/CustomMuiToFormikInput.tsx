@@ -9,13 +9,15 @@ interface CustomFormikInputProps extends FieldProps {
   label: string;
   type: "text" | "email" | "password" | "number" | "select";
   selectOptions?: ISelectOptions[];
+  activeOptions?: Record<string, number>;
 }
 
 const CustomMuiToFormikInput: React.FC<CustomFormikInputProps> = (
-    {field, form, label, type, selectOptions}) => {
+    {field, form, label, type, selectOptions, activeOptions}) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordType = type === "password";
   const errorText = form.touched[field.name] && form.errors[field.name];
+  const [optionValue, setOptionValue] = useState(activeOptions ? activeOptions[field.name] : 0);
 
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -30,11 +32,22 @@ const CustomMuiToFormikInput: React.FC<CustomFormikInputProps> = (
         <FormControl fullWidth>
           <InputLabel id={field.name + label}>{label}</InputLabel>
           <Select
+              {...field}
               labelId={field.name + label}
               label={label}
-              {...field}
+              value={optionValue}
           >
-            {selectOptions!.map(({name, id}) => <MenuItem value={id}>{name}</MenuItem>)}
+              {selectOptions!.map(({name, id}) => {
+
+                    return (
+                        <MenuItem
+                            onClick={() => setOptionValue(id)}
+                            key={id}
+                            value={id}>{name}
+                        </MenuItem>
+                    )
+                  }
+              )}
           </Select>
         </FormControl>
     );

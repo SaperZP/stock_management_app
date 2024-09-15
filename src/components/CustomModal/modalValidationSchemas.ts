@@ -51,6 +51,18 @@ export const modalValidationSchemas = {
     quantity: Yup.number().required("Required"),
     price: Yup.string().required("Required"),
   }),
+  newSale: Yup.object().shape({
+    brand_id: Yup.number().required("Required").positive("Required"),
+    product_id: Yup.number().required("Required").positive("Required"),
+    quantity: Yup.number().required("Required").positive(),
+    price: Yup.string().required("Required"),
+  }),
+  editSale: Yup.object().shape({
+    brand_id: Yup.number().required("Required"),
+    product_id: Yup.number().required("Required"),
+    quantity: Yup.number().required("Required"),
+    price: Yup.string().required("Required"),
+  }),
 };
 
 export type modalValidationSchemasType = keyof typeof modalValidationSchemas;

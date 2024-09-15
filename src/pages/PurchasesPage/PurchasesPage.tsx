@@ -1,6 +1,6 @@
 import {Box, CircularProgress, Stack} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {clearFormData, InitialValuesTypes, InputFieldData, openModal} from "../../store/modalSlice.ts";
+import {clearFormData, InputFieldData, openModal} from "../../store/modalSlice.ts";
 import {useCallback, useEffect, useMemo} from "react";
 import {modalValidationSchemasType} from "../../components/CustomModal/modalValidationSchemas.ts";
 import IconButton from "@mui/material/IconButton";
@@ -60,7 +60,7 @@ const PurchasesPage = () => {
   const isResourcesLoading = brandsLoading && productsLoading && firmsLoading && purchasesLoading;
 
   const createNewPurchaseModal = () => {
-    const initialValues: InitialValuesTypes = {
+    const initialValues: IPurchaseReq = {
       firm_id: 0,
       brand_id: 0,
       product_id: 0,
@@ -73,12 +73,11 @@ const PurchasesPage = () => {
   };
 
   const createEditPurchaseModal = useCallback((id: number) => {
-    const initialValues = purchases.find(product => product.id === id) as InitialValuesTypes;
-    const purchase = purchases.find(product => product.id === id);
+    const initialValues = purchases.find(product => product.id === id) as IPurchaseReq;
     const activeOptions = {
-      firm_id: purchase!.firm_id,
-      brand_id: purchase!.brand_id,
-      product_id: purchase!.product_id,
+      firm_id: initialValues.firm_id,
+      brand_id: initialValues.brand_id,
+      product_id: initialValues.product_id,
     };
     const validationSchema: modalValidationSchemasType = 'editPurchase';
     const buttonsText = {submit: 'Update purchase', cancel: 'Cancel'}

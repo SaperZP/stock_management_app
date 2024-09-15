@@ -20,6 +20,7 @@ import {Box, CircularProgress} from "@mui/material";
 import {clearFormData, InitialValuesTypes, InputFieldData, openModal} from "../../store/modalSlice.ts";
 import {modalValidationSchemasType} from "../../components/CustomModal/modalValidationSchemas.ts";
 import PageHeader from "../../components/PageHeader/PageHeader.tsx";
+import {ICategoryReq} from "../../types/categoriesServerTypes.ts";
 
 const CategoriesPage = () => {
   const dispatch = useAppDispatch();
@@ -65,7 +66,7 @@ const CategoriesPage = () => {
         case 'editCategory' : {
           dispatch(editCategoryAction({
             token: user!.token,
-            input: submittedModalData,
+            input: submittedModalData  as ICategoryReq,
             id: formShape.id as number
           })).then(() => dispatch(clearFormData()))
           break;
@@ -74,7 +75,7 @@ const CategoriesPage = () => {
         case 'newCategory' : {
           dispatch(addCategoryAction({
             token: user!.token,
-            input: submittedModalData,
+            input: submittedModalData  as ICategoryReq,
           })).then(() => dispatch(clearFormData()))
           break;
         }

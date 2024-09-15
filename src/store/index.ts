@@ -5,6 +5,8 @@ import modalSlice from "./modalSlice.ts";
 import brandsSlice from "./brandsSlice.ts";
 import firmsSlice from "./firmsSlice.ts";
 import productsSlice from "./productsSlice.ts";
+import salesSlice from "./salesSlice.ts";
+import purchasesSlice from "./purchasesSlice.ts";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ export const store = configureStore({
     brands: brandsSlice,
     firms: firmsSlice,
     products: productsSlice,
+    sales: salesSlice,
+    purchases: purchasesSlice,
   },
 });
 

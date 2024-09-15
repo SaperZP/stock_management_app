@@ -1,6 +1,6 @@
 import {FieldProps} from "formik";
 import React, {useState} from "react";
-import {FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {FormControl, FormHelperText, InputAdornment, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {ISelectOptions} from "../../store/modalSlice.ts";
@@ -29,7 +29,7 @@ const CustomMuiToFormikInput: React.FC<CustomFormikInputProps> = (
 
   if (type === "select") {
     return (
-        <FormControl fullWidth>
+        <FormControl fullWidth error={Boolean(errorText)}>
           <InputLabel id={field.name + label}>{label}</InputLabel>
           <Select
               {...field}
@@ -49,6 +49,7 @@ const CustomMuiToFormikInput: React.FC<CustomFormikInputProps> = (
                   }
               )}
           </Select>
+          <FormHelperText>{errorText ? errorText.toString() : ""}</FormHelperText>
         </FormControl>
     );
   }

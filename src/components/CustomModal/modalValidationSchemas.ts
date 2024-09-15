@@ -36,7 +36,21 @@ export const modalValidationSchemas = {
     name: Yup.string().required("Required").min(3),
     category_id: Yup.number().required("Required"),
     brand_id: Yup.number().required("Required"),
-  })
+  }),
+  newPurchase: Yup.object().shape({
+    firm_id: Yup.number().required("Required").positive("Required"),
+    brand_id: Yup.number().required("Required").positive("Required"),
+    product_id: Yup.number().required("Required").positive("Required"),
+    quantity: Yup.number().required("Required").positive(),
+    price: Yup.string().required("Required"),
+  }),
+  editPurchase: Yup.object().shape({
+    firm_id: Yup.number().required("Required"),
+    brand_id: Yup.number().required("Required"),
+    product_id: Yup.number().required("Required"),
+    quantity: Yup.number().required("Required"),
+    price: Yup.string().required("Required"),
+  }),
 };
 
 export type modalValidationSchemasType = keyof typeof modalValidationSchemas;

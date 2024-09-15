@@ -1,8 +1,7 @@
-import {useEffect} from 'react';
-import styles from './productsPageStyles.ts';
+import {useEffect, useMemo} from 'react';
 import {Box, CircularProgress, Stack} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {clearFormData, InitialValuesTypes, InputFieldData, openModal} from "../../store/modalSlice.ts";
+import {clearFormData, InputFieldData, openModal} from "../../store/modalSlice.ts";
 import {getBrandsAction} from "../../store/brandsSlice.ts";
 import {getCategoriesAction} from "../../store/categoriesSlice.ts";
 import {modalValidationSchemasType} from "../../components/CustomModal/modalValidationSchemas.ts";
@@ -12,7 +11,7 @@ import {
   editProductAction,
   getProductsAction
 } from "../../store/productsSlice.ts";
-import {ICreateProductReq, IEditProductReq, IProductsResp} from "../../types/productsTypes.ts";
+import {IProductReq} from "../../types/productsTypes.ts";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import PageHeader from "../../components/PageHeader/PageHeader.tsx";
 import IconButton from "@mui/material/IconButton";
@@ -25,7 +24,7 @@ const ProductsPage = () => {
   const {products, loading: productsLoading} = useAppSelector(state => state.products);
   const {formShape, submittedModalData} = useAppSelector(state => state.modal);
   const {user} = useAppSelector(state => state.auth);
-  const inputFields: InputFieldData[] = [
+  const inputFields: InputFieldData[] = useMemo(() => ([
     {
       name: 'name',
       label: 'Product Name',
@@ -43,11 +42,11 @@ const ProductsPage = () => {
       type: 'select',
       selectOptions: categories,
     },
-  ];
+  ]), [brands, categories]);
   const isResourcesLoading = brandsLoading && categoriesLoading && productsLoading;
 
   const createNewProductModal = () => {
-    const initialValues: InitialValuesTypes = {
+    const initialValues: IProductReq = {
       name: '',
       category_id: 0,
       brand_id: 0,
@@ -57,7 +56,8 @@ const ProductsPage = () => {
     dispatch(openModal({initialValues, validationSchema, inputFields, buttonsText}))
   };
 
-  const createEditProductModal = (initialValues: InitialValuesTypes, id: number) => {
+  const createEditProductModal = (id: number) => {
+    const initialValues = products.find(product => product.id === id) as IProductReq;
     const product = products.find(product => product.id === id);
     const activeOptions = {
       brand_id: product!.brand_id,
@@ -75,7 +75,7 @@ const ProductsPage = () => {
     name: product.name,
     category: product.category,
     brand: product.brand,
-    stock: product.stock
+    stock: product.stock,
   }));
 
   const columns = [
@@ -88,19 +88,15 @@ const ProductsPage = () => {
       field: "actions",
       headerName: "Actions",
       width: 150,
-      renderCell: ({row}: { row: Omit<IProductsResp, 'category_id' | 'brand_id'> }) => {
-
-        return (
-            <Stack direction="row" spacing={2} mt={1} alignItems="center">
-              <IconButton onClick={() => createEditProductModal(row, row.id)}>
-                <Edit sx={{color: 'orange'}}/>
-              </IconButton>
-              <IconButton onClick={() => dispatch(deleteProductAction({token: user!.token, id: row.id}))}>
-                <DeleteOutline sx={{color: 'red'}}/>
-              </IconButton>
-            </Stack>
-        )
-      }
+      renderCell: ({row}: { row: typeof rows[number] }) =>
+          (<Stack direction="row" spacing={2} mt={1} alignItems="center">
+            <IconButton onClick={() => createEditProductModal(row.id)}>
+              <Edit sx={{color: 'orange'}}/>
+            </IconButton>
+            <IconButton onClick={() => dispatch(deleteProductAction({token: user!.token, id: row.id}))}>
+              <DeleteOutline sx={{color: 'red'}}/>
+            </IconButton>
+          </Stack>)
     }
   ]
 
@@ -116,7 +112,7 @@ const ProductsPage = () => {
         case 'newProduct' : {
           dispatch(addProductAction({
             token: user!.token,
-            input: submittedModalData as ICreateProductReq,
+            input: submittedModalData as IProductReq,
           }));
           break;
         }
@@ -124,7 +120,7 @@ const ProductsPage = () => {
         case 'editProduct' : {
           dispatch(editProductAction({
             token: user!.token,
-            input: submittedModalData as IEditProductReq,
+            input: submittedModalData as IProductReq,
             id: formShape.id as number
           })).then(() => dispatch(clearFormData()));
           break;
@@ -139,7 +135,7 @@ const ProductsPage = () => {
   }, [submittedModalData, dispatch, user, formShape]);
 
   return (
-      <Box sx={styles.box}>
+      <Box>
         {!isResourcesLoading
             ? <>
               <PageHeader

@@ -164,10 +164,10 @@ export const editPurchase = (data: { token: string, input: IPurchaseReq, id: num
 export const deletePurchase = (data: { token: string, id: number }) =>
     deleteData(`${baseUrl}/stock/purchases/${data.id}/`, data.token).then(() => data.id);
 
-export const getSales = (token: string) => getData<ISalesResp[]>(`${baseUrl}/stock/firms/`, token);
+export const getSales = (token: string) => getData<ISalesResp[]>(`${baseUrl}/stock/sales/`, token);
 export const addSale = (data: { token: string, input: ISalesReq }) =>
-    addData<ISalesResp, ISalesReq>(`${baseUrl}/stock/firms/`, data.input, data.token);
+    addData<ISalesResp, ISalesReq>(`${baseUrl}/stock/sales/`, data.input, data.token);
 export const editSale = (data: { token: string, input: ISalesReq, id: number }) =>
-    editData<ISalesResp, ISalesReq>(`${baseUrl}/stock/firms/${data.id}/`, data.input, data.token);
+    editData<ISalesResp, ISalesReq>(`${baseUrl}/stock/sales/${data.id}/`, data.input, data.token);
 export const deleteSale = (data: { token: string, id: number }) =>
-    deleteData(`${baseUrl}/stock/firms/${data.id}/`, data.token).then(() => data.id);
+    deleteData(`${baseUrl}/stock/sales/${data.id}/`, data.token).then(() => data.id);

@@ -5,6 +5,7 @@ import {IBrandReq} from "../types/brandTypes.ts";
 import {IFirmsReq} from "../types/firmsTypes.ts";
 import {IPurchaseReq} from "../types/purchasesTypes.ts";
 import {IProductReq} from "../types/productsTypes.ts";
+import {ISalesReq} from "../types/salesTypes.ts";
 
 export interface ISelectOptions {
   id: number;
@@ -18,7 +19,8 @@ export interface InputFieldData {
   selectOptions?: ISelectOptions[];
 }
 
-export type InitialValuesTypes = ICategoryReq | IBrandReq | IFirmsReq | IProductReq | IPurchaseReq;
+export type InitialValuesTypes =
+    ICategoryReq | IBrandReq | IFirmsReq | IProductReq | IPurchaseReq | ISalesReq;
 
 export type FormShapeType = {
   initialValues: InitialValuesTypes;

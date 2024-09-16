@@ -19,7 +19,8 @@ export interface InputFieldData {
   selectOptions?: ISelectOptions[];
 }
 
-export type InitialValuesTypes = ICategoryReq | IBrandReq | IFirmsReq | IProductReq | IPurchaseReq | ISalesReq;
+export type InitialValuesTypes =
+    ICategoryReq | IBrandReq | IFirmsReq | IProductReq | IPurchaseReq | ISalesReq;
 
 export type FormShapeType = {
   initialValues: InitialValuesTypes;

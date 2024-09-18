@@ -1,7 +1,6 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import {ErrorPage, PrivateLayout,} from "./routerPages";
 import {
-  AdminPanelPage,
   DashboardPage,
   ProductsPage,
   SalesPage,
@@ -21,10 +20,6 @@ const PrivateRouter = createBrowserRouter([
       {
         index: true,
         element: <DashboardPage/>
-      },
-      {
-        path: '/admin',
-        element: <AdminPanelPage/>
       },
       {
         path: '/products',

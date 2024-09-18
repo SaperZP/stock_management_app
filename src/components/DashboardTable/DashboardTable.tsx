@@ -1,7 +1,7 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from "@mui/material";
-import {ISalesResp} from "../types/salesTypes.ts";
-import {IPurchaseResp} from "../types/purchasesTypes.ts";
 import {FC} from "react";
+import {ISalesResp} from "../../types/salesTypes.ts";
+import {IPurchaseResp} from "../../types/purchasesTypes.ts";
 
 type Props = {
   title: string;
